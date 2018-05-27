@@ -1,0 +1,76 @@
+.main-login {
+	margin-top: 10%;
+}
+.w-100 {
+	width: 100%;
+}
+.select2-container .select2-selection--single {
+	height: 34px;
+}
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+	border-radius: 0;
+	border-color: #c8c7cc;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+	line-height: 34px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+	top: 4px;
+}
+.select2-container .select2-search--inline .select2-search__field {
+	margin-top: 2px;
+}
+.tb-event thead tr th {
+    text-align: center;
+    background-color: #5bc0de;
+    color: #fff !important;
+}
+.cs-select ul {
+    max-height: 300px;
+    overflow: scroll;
+}
+.cs-skin-elastic .cs-options {
+	visibility: hidden;
+}
+p{
+	word-wrap: break-word;
+	word-break: break-all;
+}
+a.disabled {
+   pointer-events: none;
+   cursor: default;
+   color: #aaa !important;
+}
+.btn.disabled {
+   pointer-events: none;
+   cursor: default;
+   color: #aaa !important;
+   background: #ddd !important;
+   border-color: #ddd !important;
+}
+
+/* ------------------ Datatable ------------------ */
+	td.dt-body-center {
+	    text-align: center;
+	}
+	.table td,
+	.table.table-bordered > thead > tr > th, 
+	.table.table-bordered > tbody > tr > th, 
+	.table.table-bordered > tfoot > tr > th, 
+	.table.table-bordered > thead > tr > td, 
+	.table.table-bordered > tbody > tr > td, 
+	.table.table-bordered > tfoot > tr > td {
+		word-break: break-all;
+		word-wrap: break-word;
+	}
+
+	.table-responsive {
+	    width: 100% !important;
+	    margin-bottom: 15px;
+	    overflow-x: auto;
+	    overflow-y: hidden;
+	    -webkit-overflow-scrolling: touch;
+	    -ms-overflow-style: -ms-autohiding-scrollbar;
+	    border: 1px solid #DDD;
+	}
