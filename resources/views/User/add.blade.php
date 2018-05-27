@@ -241,7 +241,7 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="control-label text-bold">
-												Username / Student ID <span class="symbol required"></span>
+												Username Login <span class="symbol required"></span>
 											</label>
 											<span class="input-icon">
 												<input class="form-control" type="text" name="username" id="username" placeholder="Text Field" value="{{ old('username') }}">
