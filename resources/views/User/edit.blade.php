@@ -259,7 +259,7 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="control-label text-bold">
-												Password <span class="symbol required"></span>
+												Password
 											</label>
 											<span class="input-icon">
 												<input class="form-control" type="password" name="password" id="passwordd" placeholder="Text Field">
@@ -284,7 +284,7 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="control-label text-bold">
-												Confirm Password <span class="symbol required"></span>
+												Confirm Password
 											</label>
 											<span class="input-icon">
 												<input class="form-control" type="password" name="password_confirmation" id="confirm_password" placeholder="Text Field">

@@ -117,27 +117,29 @@ class UsersController extends Controller
                              ->withErrors($validator)
                              ->withInput();
         }
-
-        $user->username  = $request->username;
-        $user->password  = bcrypt($request->password);
+        //dd($request);
+        $user->username = $request->username;
+        if($request->password != null){
+          $user->password = bcrypt($request->password);
+        }
         $user->user_code = $request->username;
-        $user->gender   = $request->gender;
-        $user->title_id   = $request->title_id;
-        $user->firstname_th   = $request->firstname_th;
-        $user->firstname_en   = $request->firstname_en;
-        $user->middlename_th   = $request->middlename_th;
-        $user->middlename_en   = $request->middlename_en;
-        $user->lastname_th   = $request->lastname_th;
-        $user->lastname_en   = $request->lastname_en;
-        $user->citizen_id   = $request->citizen_id;
-        $user->passport_id   = $request->passport_id;
-        $user->birth_date   = $request->birth_date;
-        $user->nationallity_id   = $request->nationallity_id;
-        $user->library_code   = $request->library_code;
-        $user->group_id   = $request->group_id;
-        $user->role_id   = $request->role_id;
+        $user->gender = $request->gender;
+        $user->title_id = $request->title_id;
+        $user->firstname_th = $request->firstname_th;
+        $user->firstname_en = $request->firstname_en;
+        $user->middlename_th = $request->middlename_th;
+        $user->middlename_en = $request->middlename_en;
+        $user->lastname_th = $request->lastname_th;
+        $user->lastname_en = $request->lastname_en;
+        $user->citizen_id = $request->citizen_id;
+        $user->passport_id = $request->passport_id;
+        $user->birth_date = $request->birth_date;
+        $user->nationallity_id = $request->nationallity_id;
+        $user->library_code = $request->library_code;
+        $user->group_id = $request->group_id;
+        $user->role_id = $request->role_id;
         $user->auth_type = "local";
-        $user->active   = $request->active;
+        $user->active = $request->active;
         $user->save();
 
         return redirect()->route('user');
