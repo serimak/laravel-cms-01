@@ -57,7 +57,7 @@
 								กรุณาใส่ ชื่อผู้ใช้งาน และ รหัสผ่าน เพื่อเข้าสู่ระบบ
 							</p>
 							@if ($errors->any())
-								@if ($errors->first()=="Change your password success!")
+								@if ($errors->first()=="การเปลี่ยนรหัสผ่านของคุณ สำเร็จ!")
 							        <div class="alert alert-success">
 							          {{$errors->first()}}
 							        </div>

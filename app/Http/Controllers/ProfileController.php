@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Roles\CurrentPassword;
 
 class ProfileController extends Controller
 {
@@ -42,6 +43,14 @@ class ProfileController extends Controller
       // 'group_id'  => 'required',
       // 'role_id'  => 'required',
       // 'active'  => 'required'
+    ]);
+  }
+
+  private function _validatorPassword(array $data)
+  {
+    return Validator::make($data, [
+      'current_password' => ['required', new CurrentPassword()],
+      'password' => 'min:8|max:16|regex:/^.*(?=.{4,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\d\X\*])[A-Za-z0-9_~\-$@#\$%\^&\*]+$/|confirmed'
     ]);
   }
 
@@ -86,7 +95,7 @@ class ProfileController extends Controller
 
         if($request->password) {
 
-          $validator->errors()->add('change_password', 'Change your password success!');
+          $validator->errors()->add('change_password', 'การเปลี่ยนรหัสผ่านของคุณ สำเร็จ!');
 
           $this->request->session()->flush();
           return redirect()
@@ -114,4 +123,60 @@ class ProfileController extends Controller
       return redirect()->route('profile');
     }
   }
+
+  public function change_password(Request $request)
+  {
+    $id   = Auth::user()->id;
+    $user = User::find($id);
+    if($user) {
+
+      if($request->isMethod('post')) {
+
+        $validator = $this->_validatorPassword($request->all());
+        
+        if ($validator->fails()) {
+
+            return redirect()
+                        ->route('change_password')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        if($request->password) {
+          $user->password  = bcrypt($request->password);
+        }
+
+        $user->save();
+
+        if($request->password) {
+
+          $validator->errors()->add('change_password', 'การเปลี่ยนรหัสผ่านของคุณ สำเร็จ!');
+
+          $this->request->session()->flush();
+          return redirect()
+                      ->route('login')
+                      ->withErrors($validator)
+                      ->withInput();
+        }
+
+        $this->flash_messages($request, 'success', 'Success!');
+
+        return redirect()->route('profile');
+      } else {
+
+        $this->_data['result'] = $user;
+
+        $this->_data['nationalities'] = Nationality::all();
+        $this->_data['titles']        = Title::all();
+        $this->_data['groups']        = Group::all();
+        $this->_data['roles']         = Role::all();
+
+        return view('change_password')->with($this->_data);
+      }
+    } else {
+
+      return redirect()->route('change_password');
+    }
+  }
+
 }

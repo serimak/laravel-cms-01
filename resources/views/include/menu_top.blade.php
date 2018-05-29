@@ -44,6 +44,11 @@
 							</a>
 						</li>
 						<li>
+							<a href="{{ url('change_password') }}">
+								เปลี่ยนรหัสผ่าน
+							</a>
+						</li>
+						<li>
 							<a href="{{ url('/auth/logout') }}">
 								ออกจากระบบ
 							</a>
