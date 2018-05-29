@@ -185,9 +185,8 @@
 								</label>
 								<div class="input-group input-daterange">
 									<span class="input-icon">
-										<input type="text" placeholder="กรุณาเลือก" class="form-control" name="startDate" id="startDate" maxlength="20">
+										<input type="text" placeholder="DD/MM/YYYY" class="form-control" name="start_date" id="start_date" value="{{ old('start_date') }}" maxlength="10">
 										<i class="ti-calendar"></i> 
-										<input type="hidden" name="start_date" id="start_date" value="{{ old('start_date') }}">
 									</span>
 								</div>
 							</div>
@@ -198,9 +197,8 @@
 								</label>
 								<div class="input-group input-daterange">
 									<span class="input-icon">
-										<input type="text" placeholder="กรุณาเลือก" class="form-control" name="endDate" id="endDate" maxlength="20">
+										<input type="text" placeholder="DD/MM/YYYY" class="form-control" name="end_date" id="end_date" value="{{ old('end_date') }}" maxlength="10">
 										<i class="ti-calendar"></i> 
-										<input type="hidden" name="end_date" id="end_date" value="{{ old('end_date') }}">
 									</span>
 								</div>
 							</div>
@@ -223,9 +221,8 @@
 					            </label>
 					            <div class="input-group input-daterange">
 					                <span class="input-icon">
-									    <input type="text" placeholder="กรุณาเลือก" class="form-control" name="dateOfSubmission" id="dateOfSubmission" maxlength="20">
+									    <input type="text" placeholder="DD/MM/YYYY" class="form-control" name="date_of_submission" id="date_of_submission" value="{{ old('date_of_submission') }}" maxlength="20">
 										<i class="ti-calendar"></i>
-									    <input type="hidden" name="date_of_submission" id="date_of_submission" value="{{ old('date_of_submission') }}">
 									</span>
 								</div>
 					        </div>
@@ -339,51 +336,51 @@
 	        }   
 		});
 
-		$('#startDate').daterangepicker({
-			autoUpdateInput: false,
-			singleDatePicker: true,
-			"drops": "up",
-			"autoApply": true,
-			timePicker: false,
-			"timePicker24Hour": true,
-			locale: {
-				format: 'DD/MM/YYYY'
-			}
-		});
+		//$('#startDate').daterangepicker({
+		//	autoUpdateInput: false,
+		//	singleDatePicker: true,
+		//	"drops": "up",
+		//	"autoApply": true,
+		//	timePicker: false,
+		//	"timePicker24Hour": true,
+		//	locale: {
+		//		format: 'DD/MM/YYYY'
+		//	}
+		//});
 
-		$('#startDate').on('apply.daterangepicker', function(ev, picker) {
-			$(this).val(picker.startDate.format('DD/MM/YYYY'));
-			$("#start_date").val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
-		});
+		//$('#startDate').on('apply.daterangepicker', function(ev, picker) {
+		//	$(this).val(picker.startDate.format('DD/MM/YYYY'));
+		//	$("#start_date").val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
+		//});
 
-		$('#endDate').daterangepicker({
-			autoUpdateInput: false,
-			singleDatePicker: true,
-			"drops": "up",
-			"autoApply": true,
-			timePicker: false,
-			"timePicker24Hour": true,
-			locale: {
-				format: 'DD/MM/YYYY'
-			}
-		});
+		//$('#endDate').daterangepicker({
+		//	autoUpdateInput: false,
+		//	singleDatePicker: true,
+		//	"drops": "up",
+		//	"autoApply": true,
+		//	timePicker: false,
+		//	"timePicker24Hour": true,
+		//	locale: {
+		//		format: 'DD/MM/YYYY'
+		//	}
+		//});
 
-		$('#endDate').on('apply.daterangepicker', function(ev, picker) {
-			$(this).val(picker.startDate.format('DD/MM/YYYY'));
-			$("#end_date").val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
-		});
+		//$('#endDate').on('apply.daterangepicker', function(ev, picker) {
+		//	$(this).val(picker.startDate.format('DD/MM/YYYY'));
+		//	$("#end_date").val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
+		//});
 
-		$('#dateOfSubmission').daterangepicker({
-			autoUpdateInput: false,
-			singleDatePicker: true,
-			"drops": "up",
-			"autoApply": true,
-			timePicker: false,
-			"timePicker24Hour": true,
-			locale: {
-				format: 'DD/MM/YYYY'
-			}
-		});
+		//$('#dateOfSubmission').daterangepicker({
+		//	autoUpdateInput: false,
+		//	singleDatePicker: true,
+		//	"drops": "up",
+		//	"autoApply": true,
+		//	timePicker: false,
+		//	"timePicker24Hour": true,
+		//	locale: {
+		//		format: 'DD/MM/YYYY'
+		//	}
+		//});
 
 		$('#dateOfSubmission').on('apply.daterangepicker', function(ev, picker) {
 			$(this).val(picker.startDate.format('DD/MM/YYYY'));

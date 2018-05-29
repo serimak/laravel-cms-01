@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ResRegistrationController extends Controller
 {
@@ -151,7 +152,7 @@ class ResRegistrationController extends Controller
     if(count($this->getPermissions($request, 1, 1))==2) { // R, W, D, S
 
       if($request->isMethod('post')) {
-
+        //dd($request);
         $validator = $this->_validator($request->all());
         if ($validator->fails()) {
             return redirect()->route('resRegis.add')
@@ -233,10 +234,10 @@ class ResRegistrationController extends Controller
         $resReg->research_researcher = $researcherWithComma;
         $resReg->agency_responsible_id = $request->agency_responsible_id;
         $resReg->budget_allocated = $request->budget_allocated;
-        $resReg->start_date = $request->start_date;
-        $resReg->end_date = $request->end_date;
+        $resReg->start_date = Carbon::createFromFormat('d/m/Y', $request->start_date, 'Asia/Bangkok')->subYear(543);
+        $resReg->end_date = Carbon::createFromFormat('d/m/Y', $request->end_date, 'Asia/Bangkok')->subYear(543);
         $resReg->job_status_id = $request->job_status_id;
-        $resReg->date_of_submission = $request->date_of_submission;
+        $resReg->date_of_submission = Carbon::createFromFormat('d/m/Y', $request->date_of_submission, 'Asia/Bangkok')->subYear(543);
         $resReg->created_by = Auth::user()->id;
         $resReg->updated_by = Auth::user()->id;
         $resReg->save();
