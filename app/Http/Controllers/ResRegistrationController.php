@@ -233,10 +233,10 @@ class ResRegistrationController extends Controller
         $resReg->research_researcher = $researcherWithComma;
         $resReg->agency_responsible_id = $request->agency_responsible_id;
         $resReg->budget_allocated = $request->budget_allocated;
-        $resReg->start_date = Carbon::createFromFormat('d/m/Y', $request->start_date, 'Asia/Bangkok')->subYear(543);
-        $resReg->end_date = Carbon::createFromFormat('d/m/Y', $request->end_date, 'Asia/Bangkok')->subYear(543);
+        $resReg->start_date = $request->start_date ? Carbon::createFromFormat('d/m/Y', $request->start_date, 'Asia/Bangkok')->subYear(543) : null;
+        $resReg->end_date = $request->end_date ? Carbon::createFromFormat('d/m/Y', $request->end_date, 'Asia/Bangkok')->subYear(543) : null;
         $resReg->job_status_id = $request->job_status_id;
-        $resReg->date_of_submission = Carbon::createFromFormat('d/m/Y', $request->date_of_submission, 'Asia/Bangkok')->subYear(543);
+        $resReg->date_of_submission = $request->date_of_submission ? Carbon::createFromFormat('d/m/Y', $request->date_of_submission, 'Asia/Bangkok')->subYear(543) : null;
         $resReg->created_by = Auth::user()->id;
         $resReg->updated_by = Auth::user()->id;
         $resReg->save();
@@ -404,10 +404,10 @@ class ResRegistrationController extends Controller
           $resReg->research_researcher = $researcherWithComma;
           $resReg->agency_responsible_id = $request->agency_responsible_id;
           $resReg->budget_allocated = $request->budget_allocated;
-          $resReg->start_date = Carbon::createFromFormat('d/m/Y', $request->start_date, 'Asia/Bangkok')->subYear(543);
-          $resReg->end_date = Carbon::createFromFormat('d/m/Y', $request->end_date, 'Asia/Bangkok')->subYear(543);
+          $resReg->start_date = $request->start_date ? Carbon::createFromFormat('d/m/Y', $request->start_date, 'Asia/Bangkok')->subYear(543) : null;
+          $resReg->end_date = $request->end_date ? Carbon::createFromFormat('d/m/Y', $request->end_date, 'Asia/Bangkok')->subYear(543) : null;
           $resReg->job_status_id = $request->job_status_id;
-          $resReg->date_of_submission = Carbon::createFromFormat('d/m/Y', $request->date_of_submission, 'Asia/Bangkok')->subYear(543);
+          $resReg->date_of_submission = $request->date_of_submission ? Carbon::createFromFormat('d/m/Y', $request->date_of_submission, 'Asia/Bangkok')->subYear(543) : null;
           $resReg->updated_by = Auth::user()->id;
           $resReg->save();
 

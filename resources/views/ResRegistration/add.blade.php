@@ -183,7 +183,7 @@
 								<label class="text-bold">
 									  วันที่เริ่มสัญญา
 								</label>
-								<div class="input-group input-daterange">
+								<div class="form-group">
 									<span class="input-icon">
 										<input type="text" placeholder="DD/MM/YYYY" class="form-control" name="start_date" id="start_date" value="{{ old('start_date') }}" maxlength="10">
 										<i class="ti-calendar"></i> 
@@ -195,7 +195,7 @@
 								<label class="text-bold">
 									วันที่สิ้นสุดสัญญา
 								</label>
-								<div class="input-group input-daterange">
+								<div class="form-group">
 									<span class="input-icon">
 										<input type="text" placeholder="DD/MM/YYYY" class="form-control" name="end_date" id="end_date" value="{{ old('end_date') }}" maxlength="10">
 										<i class="ti-calendar"></i> 
@@ -219,7 +219,7 @@
 					            <label class="text-bold">
 									วันที่ส่งงาน
 					            </label>
-					            <div class="input-group input-daterange">
+					            <div class="form-group">
 					                <span class="input-icon">
 									    <input type="text" placeholder="DD/MM/YYYY" class="form-control" name="date_of_submission" id="date_of_submission" value="{{ old('date_of_submission') }}" maxlength="20">
 										<i class="ti-calendar"></i>
