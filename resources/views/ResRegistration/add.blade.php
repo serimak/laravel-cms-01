@@ -27,6 +27,7 @@
 
 @section('content')
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">	
   <link rel="stylesheet" href="{{asset('core/vendor/bootstrap-daterangepicker/daterangepicker.css', env('REDIRECT_HTTPS'))}}">
 
   <div class="main-content">
@@ -77,39 +78,64 @@
 								</label>
 								<input type="text" placeholder="กรุณากรอก" class="form-control" id="project_name_th" name="project_name_th" maxlength="1024" value="{{ old('project_name_th') }}">
 							</div>
-							<div class="form-group">
-								<label class="control-label text-bold">
-									ชื่อโครงการภาษาอังกฤษ
-								</label>
-								<input type="text" placeholder="กรุณากรอก" class="form-control" id="project_name_en" name="project_name_en" maxlength="1024" value="{{ old('project_name_en') }}">
-							</div>
 							<div class="row">
 								<div class="col-xs-10">	
 									<div class="form-group">
 										<label class="control-label text-bold">
-											ผู้รับผิดชอบ <span class="symbol required"></span>
+											ที่ปรึกษาโครงการวิจัย <span class="symbol required"></span>
 										</label>
-										<select class="cs-select cs-skin-elastic" id="responsible_person_id" name="responsible_person_id" >
-											<option value="">กรุณาเลือก</option>
-											@foreach($resResponsiblePersonList as $key => $text)
-												<option @if(old('responsible_person_id') === $text->id) selected @endif value="{{ $text->id }}">{{ $text->name_th }}</option>
-											@endforeach
-										</select>
+										<input type="hidden" name="research_advisor" id="research_advisor" value="1">
 									</div>
 								</div>
 								<div class="col-xs-2">
 									<div class="form-group">
-										<label class="control-label text-bold">
-											เพิ่มที่ปรึกษา
-										</label>
-										<div class="btn-group"></div>
-										<a id="btnAddAdvisor" class="btn btn-wide btn-success pull-right" href="javascript:void(0);"><i class="glyphicon glyphicon-plus"></i></a> 
+										<a id="btnAddAdvisor" class="btn btn-wide btn-success pull-right" href="javascript:void(0);"><i class="glyphicon glyphicon-plus"></i>เพิ่มที่ปรึกษา</a> 
 									</div>
 								</div>
 							</div>
 
 							<div class="row" id="advisor-grp">
 
+							</div>
+
+							<div class="row">
+								<div class="col-xs-10">	
+									<div class="form-group">
+										<label class="control-label text-bold">
+											หัวหน้าโครงการวิจัย <span class="symbol required"></span>
+										</label>
+										<input type="hidden" name="research_leader" id="research_leader" value="2">
+									</div>
+								</div>
+								<div class="col-xs-2">
+									<div class="form-group">
+										<a id="btnAddLeader" class="btn btn-wide btn-success pull-right" href="javascript:void(0);"><i class="glyphicon glyphicon-plus"></i>เพิ่มหัวหน้า</a> 
+									</div>
+								</div>
+							</div>
+	
+							<div class="row" id="leader-grp">
+	
+							</div>
+
+							<div class="row">
+								<div class="col-xs-10">	
+									<div class="form-group">
+										<label class="control-label text-bold">
+											ผู้ร่วมวิจัย <span class="symbol required"></span>
+										</label>
+										<input type="hidden" name="research_researcher" id="research_researcher" value="3">
+									</div>
+								</div>
+								<div class="col-xs-2">
+									<div class="form-group">
+										<a id="btnAddResearcher" class="btn btn-wide btn-success pull-right" href="javascript:void(0);"><i class="glyphicon glyphicon-plus"></i>เพิ่มผู้ร่วม</a> 
+									</div>
+								</div>
+							</div>
+	
+							<div class="row" id="researcher-grp">
+									
 							</div>
 
 							<div class="form-group">
@@ -155,7 +181,7 @@
 
 							<div class="form-group">
 								<label class="text-bold">
-									  วันที่เริ่มสัญญา <span class="symbol required"></span>:
+									  วันที่เริ่มสัญญา
 								</label>
 								<div class="input-group input-daterange">
 									<span class="input-icon">
@@ -168,7 +194,7 @@
 
 							<div class="form-group">
 								<label class="text-bold">
-									วันที่สิ้นสุดสัญญา <span class="symbol required"></span>:
+									วันที่สิ้นสุดสัญญา
 								</label>
 								<div class="input-group input-daterange">
 									<span class="input-icon">
@@ -181,7 +207,7 @@
 
 							<div class="form-group">
 								<label class="text-bold">
-									สถานะงาน <span class="symbol required"></span>:
+									สถานะงาน <span class="symbol required"></span>
 								</label>
 								<select class="cs-select cs-skin-elastic" id="job_status_id" name="job_status_id">
 									<option value="">กรุณาเลือก</option>
@@ -193,7 +219,7 @@
 
 							<div class="form-group">
 					            <label class="text-bold">
-									วันที่ส่งงาน :
+									วันที่ส่งงาน
 					            </label>
 					            <div class="input-group input-daterange">
 					                <span class="input-icon">
@@ -253,15 +279,14 @@
 		
 		var SetRules = {
 			'project_name_th' : 'required',
-	        'responsible_person_id' : 'required',
 	        'fiscal_year_id' : 'required',
 			'budget_type_id' : 'required',
 			'agency_responsible_id' : 'required',
 			'budget_allocated' : {
 	            required: true
 	        },
-			'start_date' : 'required',
-			'end_date' : 'required',
+		  //'start_date' : 'required',
+		  //'end_date' : 'required',
 	        'job_status_id' : 'required'
 		};
 
@@ -272,6 +297,8 @@
   	$(function () {
 		  
 		var i = 0;
+		var j = 0;
+		var k = 0;
 
 	  	$("#budget_allocated").keydown(function (e) {
 	  			// Allow: backspace, delete, tab, escape, enter , - and .
@@ -368,10 +395,28 @@
 			$("#advisor-grp").append('<div id="advisor'+i+'"><div class="col-xs-10"><div class="form-group"><span class="input-icon"><input type="text" placeholder="ชื่อที่ปรึกษา" class="form-control" maxlength="200" name="advisors[]"/><i class="ti-user"></i></span></div></div><div class="col-xs-2"><div class="form-group"><a class="btn btn-wide btn-danger pull-right" href="javascript:removeAdvisor('+i+');"><i class="glyphicon glyphicon-minus"></i></a></div></div></div>');	
 		});
 
+		$('#btnAddLeader').click(function(){
+			j++;
+			$("#leader-grp").append('<div id="leader'+j+'"><div class="col-xs-7"><div class="form-group"><span class="input-icon"><input type="text" placeholder="ชื่อหัวหน้า" class="form-control" maxlength="200" name="leaders[]"/><i class="ti-user"></i></span></div></div><div class="col-xs-3"><div class="form-group"><span class="input-icon"><input type="text" placeholder="เปอร์เซ็นต์" class="form-control" maxlength="3" name="leader_percents[]"/><i class="fa fa-percent"></i></span></div></div><div class="col-xs-2"><div class="form-group"><a class="btn btn-wide btn-danger pull-right" href="javascript:removeLeader('+j+');"><i class="glyphicon glyphicon-minus"></i></a></div></div></div>');	
+		});
+
+		$('#btnAddResearcher').click(function(){
+			k++;
+			$("#researcher-grp").append('<div id="researcher'+k+'"><div class="col-xs-7"><div class="form-group"><span class="input-icon"><input type="text" placeholder="ชื่อผู้ร่วม" class="form-control" maxlength="200" name="researchers[]"/><i class="ti-user"></i></span></div></div><div class="col-xs-3"><div class="form-group"><span class="input-icon"><input type="text" placeholder="เปอร์เซ็นต์" class="form-control" maxlength="3" name="researcher_percents[]"/><i class="fa fa-percent"></i></span></div></div><div class="col-xs-2"><div class="form-group"><a class="btn btn-wide btn-danger pull-right" href="javascript:removeResearcher('+k+');"><i class="glyphicon glyphicon-minus"></i></a></div></div></div>');	
+		});
+
 	  });
 
 	  function removeAdvisor(i){
-			$("#advisor"+i).remove();
+		$("#advisor"+i).remove();
+	  }
+
+	  function removeLeader(i){
+		$("#leader"+i).remove();
+	  }
+		
+	  function removeResearcher(i){
+		$("#researcher"+i).remove();
 	  }
 
 </script>

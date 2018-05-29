@@ -96,9 +96,9 @@
                         <th hidden class="center" width="5"><input type="checkbox" class="select_all_item" style="margin-left:10px;"></th>
                         <th class="center">ลำดับ</th>
                         <th class="center">ชื่อโครงการ</th>
-                        <th class="center">ชื่อโครงการภาษาอังกฤษ</th>
-                        <th class="center">ผู้รับผิดชอบ</th>
-                        <th class="center">ที่ปรึกษา</th>
+                        <th class="center">ที่ปรึกษาโครงการวิจัย</th>
+                        <th class="center">หัวหน้าโครงการวิจัย</th>
+                        <th class="center">ผู้ร่วมวิจัย</th>
                         <th class="center">ปีงบประมาณ</th>
                         <th class="center">ประเภทงบประมาณ</th>
                         <th class="center">หน่วยงาน/คณะที่รับผิดชอบ</th>
@@ -120,9 +120,9 @@
                               <td hidden>{{ $row->id }}</td>
                               <td>{{ $i }}</td>
                               <td>{{ $row->project_name_th }}</td>
-                              <td>{{ $row->project_name_en }}</td>
-                              <td>{{ $row->responsible_person_id }}</td>
-                              <td>{{ $row->advisors }}</td>
+                              <td>{{ $row->research_advisor }}</td>
+                              <td>{{ $row->research_leader }}</td>
+                              <td>{{ $row->research_researcher }}</td>
                               <td>{{ $row->fiscal_year_id }}</td>
                               <td>{{ $row->budget_type_id }}</td>
                               <td>{{ $row->agency_responsible_id }}</td>
@@ -212,7 +212,7 @@
           },
           {
             'targets': 4,
-            'width': '120px',
+            'width': '220px',
             'className':'dt-body-center'
           },
           {

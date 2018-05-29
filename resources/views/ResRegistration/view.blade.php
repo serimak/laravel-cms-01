@@ -63,35 +63,35 @@
 										</p>
 									</div>
 								</div>
-								<div class="form-group row">
-			                        <label class="text-bold col-xs-3">
-                                        ชื่อโครงการภาษาอังกฤษ : 
-			                        </label>
-			                        <div class="col-xs-9">
-			                        	<p class="text-dark w-100">
-											{{ $result->project_name_en }}
-										</p>
-									</div>
-			                    </div>
 			                    <div class="form-group row">
 									<label class="control-label text-bold col-xs-3">
-                                        ผู้รับผิดชอบ : 
+                                        ที่ปรึกษาโครงการวิจัย : 
 									</label>
 									<div class="col-xs-9">
 										<p class="text-dark w-100">
-											{{ $result->responsible_person_id }}
+											{{ $result->research_advisor }}
 										</p>
 									</div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="control-label text-bold col-xs-3">
-                                        ที่ปรึกษา : 
+                                        หัวหน้าโครงการวิจัย : 
                                     </label>
                                     <div class="col-xs-9">
                                         <p class="text-dark w-100">
-                                            {{ $result->advisors }}
+                                            {{ $result->research_leader }}
                                         </p>
                                     </div>
+                                </div>
+                                <div class="form-group row">
+                                        <label class="control-label text-bold col-xs-3">
+                                            ผู้ร่วมวิจัย : 
+                                        </label>
+                                        <div class="col-xs-9">
+                                            <p class="text-dark w-100">
+                                                {{ $result->research_researcher }}
+                                            </p>
+                                        </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="control-label text-bold col-xs-3">

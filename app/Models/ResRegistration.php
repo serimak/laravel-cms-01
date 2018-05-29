@@ -18,10 +18,12 @@ class ResRegistration extends Model implements Transformable
         'id',
         'project_name_th',
         'project_name_en',
-        'responsible_person_id',
+      //'responsible_person_id',
         'fiscal_year_id',
         'budget_type_id',
-        'advisors',
+        'research_advisor',
+        'research_leader',
+        'research_researcher',
         'agency_responsible_id',
         'budget_allocated',
         'start_date',
@@ -42,9 +44,9 @@ class ResRegistration extends Model implements Transformable
         return $this->belongsTo('App\Models\ResResponsiblePerson');
     }
 
-    public function resAdvisor()
+    public function resResearcher()
     {
-        return $this->hasMany('App\Models\ResAdvisor', 'id', 'res_registration_id');
+        return $this->hasMany('App\Models\ResResearcher', 'id', 'res_registration_id', 'res_responsible_person_id');
     }
 
     public function resFiscalYear()

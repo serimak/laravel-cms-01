@@ -7,18 +7,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class ResAdvisor extends Model implements Transformable
+class ResResearcher extends Model implements Transformable
 {
     use TransformableTrait;
     //use SoftDeletes;
 
-    protected $table = 'res_advisor';
+    protected $table = 'res_researcher';
 
     protected $fillable = [
         'id',
         'res_registration_id',
-        'advisor_name_th',
-        'advisor_name_en',
+        'res_responsible_person_id',
+        'name_th',
+        'name_en',
+        'percent',
         'created_by',
         'updated_by'
     ];

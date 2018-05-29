@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ResRegistration;
 use App\Models\ResResponsiblePerson;
-use App\Models\ResAdvisor;
+use App\Models\ResResearcher;
 use App\Models\ResFiscalYear;
 use App\Models\ResBudgetType;
 use App\Models\ResAgencyResponsible;
@@ -73,14 +73,16 @@ class ResRegistrationController extends Controller
           'project_name_th' => 'required|string|max:1024',
         //'project_name_en' => 'nullable|string|max:1024|regex:/(^[A-Za-z0-9 _~\-+!@#<=>:;.,\?\/\$%\^&\*\(\)\[\]\"\'\{\}\`]+$)+/',
           'project_name_en' => 'nullable|string|max:1024',
-          'responsible_person_id' => 'required|integer',
+        //'responsible_person_id' => 'required|integer',
           'fiscal_year_id' => 'required|integer',
           'budget_type_id' => 'required|integer',
-          'advisors' => 'nullable',
+          'research_advisor' => 'nullable',
+          'research_leader' => 'nullable',
+          'research_researcher' => 'nullable',
           'agency_responsible_id' => 'required|integer',
           'budget_allocated' => 'required|numeric',
-          'start_date' => 'required',
-          'end_date' => 'required',
+          'start_date' => 'nullable',
+          'end_date' => 'nullable',
           'job_status_id' => 'required|integer',
           'date_of_submission' => 'nullable'
         ],
@@ -100,13 +102,13 @@ class ResRegistrationController extends Controller
 
                 $this->_data['result'][$key] = $value;
 
-                $this->_data['result'][$key]['responsible_person_id'] = @ResResponsiblePerson::find($value['responsible_person_id'])->name_th;
+              //$this->_data['result'][$key]['responsible_person_id'] = @ResResponsiblePerson::find($value['responsible_person_id'])->name_th;
                 $this->_data['result'][$key]['fiscal_year_id']        = @ResFiscalYear::find($value['fiscal_year_id'])->name_th;
                 $this->_data['result'][$key]['budget_type_id']        = @ResBudgetType::find($value['budget_type_id'])->name_th;
                 $this->_data['result'][$key]['agency_responsible_id'] = @ResAgencyResponsible::find($value['agency_responsible_id'])->name_th;
                 $this->_data['result'][$key]['job_status_id']         = @ResJobStatus::find($value['job_status_id'])->name_th;
-                $this->_data['result'][$key]['start_date']            = date('d/m/Y', strtotime($value['start_date']));
-                $this->_data['result'][$key]['end_date']              = date('d/m/Y', strtotime($value['end_date']));
+                $this->_data['result'][$key]['start_date']            = $value['date_of_submission'] ? date('d/m/Y', strtotime($value['start_date'])) : "";
+                $this->_data['result'][$key]['end_date']              = $value['date_of_submission'] ? date('d/m/Y', strtotime($value['end_date'])) : "";
                 $this->_data['result'][$key]['date_of_submission']    = $value['date_of_submission'] ? date('d/m/Y', strtotime($value['date_of_submission'])) : "";
             }
 
@@ -126,13 +128,13 @@ class ResRegistrationController extends Controller
       $value = ResRegistration::find($id);
       $this->_data['result'] = $value;
 
-      $this->_data['result']['responsible_person_id'] = @ResResponsiblePerson::find($value['responsible_person_id'])->name_th;
+    //$this->_data['result']['responsible_person_id'] = @ResResponsiblePerson::find($value['responsible_person_id'])->name_th;
       $this->_data['result']['fiscal_year_id']        = @ResFiscalYear::find($value['fiscal_year_id'])->name_th;
       $this->_data['result']['budget_type_id']        = @ResBudgetType::find($value['budget_type_id'])->name_th;
       $this->_data['result']['agency_responsible_id'] = @ResAgencyResponsible::find($value['agency_responsible_id'])->name_th;
       $this->_data['result']['job_status_id']         = @ResJobStatus::find($value['job_status_id'])->name_th;
-      $this->_data['result']['start_date']            = date('d/m/Y', strtotime($value['start_date']));
-      $this->_data['result']['end_date']              = date('d/m/Y', strtotime($value['end_date']));
+      $this->_data['result']['start_date']            = $value['date_of_submission'] ? date('d/m/Y', strtotime($value['start_date'])) : "";
+      $this->_data['result']['end_date']              = $value['date_of_submission'] ? date('d/m/Y', strtotime($value['end_date'])) : "";
       $this->_data['result']['date_of_submission']    = $value['date_of_submission'] ? date('d/m/Y', strtotime($value['date_of_submission'])) : "";
 
       return view('ResRegistration.view')->with($this->_data);
@@ -160,11 +162,11 @@ class ResRegistrationController extends Controller
         $advisorWithComma = "";
         $advisors = count($request->advisors);
         if ($advisors > 0) {
-          $position = 0;
+          $posi = 0;
           for ($i = 0; $i < $advisors; $i++ ) {
             if(trim($request->advisors[$i]) != ''){
-              if($position == 0){
-                $position = 1;
+              if($posi == 0){
+                $posi = 1;
                 $advisorWithComma = $advisorWithComma . $request->advisors[$i];
               }else{
                 $advisorWithComma = $advisorWithComma . ', ' . $request->advisors[$i];
@@ -173,13 +175,62 @@ class ResRegistrationController extends Controller
           }
         }
 
+        $leaderWithComma = "";
+        $leaders = count($request->leaders);
+        if ($leaders > 0) {
+          $posj = 0;
+          for ($i = 0; $i < $leaders; $i++ ) {
+            if(trim($request->leaders[$i]) != ''){
+              if($posj == 0){
+                $posj = 1;
+                if(trim($request->leader_percents[$i]) != ''){
+                  $leaderWithComma = $leaderWithComma . $request->leaders[$i] . '(' . $request->leader_percents[$i] . '%)';
+                }else{
+                  $leaderWithComma = $leaderWithComma . $request->leaders[$i] . '(0%)';
+                }
+              }else{
+                if(trim($request->leader_percents[$i]) != ''){
+                  $leaderWithComma = $leaderWithComma . ', ' . $request->leaders[$i] . '(' . $request->leader_percents[$i] . '%)';
+                }else{
+                  $leaderWithComma = $leaderWithComma . ', ' . $request->leaders[$i] . '(0%)';
+                }
+              }
+            }
+          }
+        }
+
+        $researcherWithComma = "";
+        $researchers = count($request->researchers);
+        if ($researchers > 0) {
+          $posk = 0;
+          for ($i = 0; $i < $researchers; $i++ ) {
+            if(trim($request->researchers[$i]) != ''){
+              if($posk == 0){
+                $posk = 1;
+                if(trim($request->researcher_percents[$i]) != ''){
+                  $researcherWithComma = $researcherWithComma . $request->researchers[$i] . '(' . $request->researcher_percents[$i] . '%)';
+                }else{
+                  $researcherWithComma = $researcherWithComma . $request->researchers[$i] . '(0%)';
+                }
+              }else{
+                if(trim($request->researcher_percents[$i]) != ''){
+                  $researcherWithComma = $researcherWithComma . ', ' . $request->researchers[$i] . '(' . $request->researcher_percents[$i] . '%)';
+                }else{
+                  $researcherWithComma = $researcherWithComma . ', ' . $request->researchers[$i] . '(0%)';
+                }
+              }
+            }
+          }
+        }
+
         $resReg = new ResRegistration;
         $resReg->project_name_th = $request->project_name_th;
-        $resReg->project_name_en = $request->project_name_en;
-        $resReg->responsible_person_id = $request->responsible_person_id;
+      //$resReg->project_name_en = $request->project_name_en;
         $resReg->fiscal_year_id = $request->fiscal_year_id;
         $resReg->budget_type_id = $request->budget_type_id;
-        $resReg->advisors = $advisorWithComma;
+        $resReg->research_advisor = $advisorWithComma;
+        $resReg->research_leader = $leaderWithComma;
+        $resReg->research_researcher = $researcherWithComma;
         $resReg->agency_responsible_id = $request->agency_responsible_id;
         $resReg->budget_allocated = $request->budget_allocated;
         $resReg->start_date = $request->start_date;
@@ -194,13 +245,49 @@ class ResRegistrationController extends Controller
         if ($advisors > 0) {
           for ($i = 0; $i < $advisors; $i++ ) {
             if(trim($request->advisors[$i]) != ''){
-              $resAdvisor = new ResAdvisor;
-              $resAdvisor->res_registration_id = $resReg->id;
-              $resAdvisor->advisor_name_th = $request->advisors[$i];
-              $resAdvisor->advisor_name_en = "";
-              $resAdvisor->created_by = Auth::user()->id;
-              $resAdvisor->updated_by = Auth::user()->id;
-              $resAdvisor->save();
+              $resResearcher = new ResResearcher;
+              $resResearcher->res_registration_id = $resReg->id;
+              $resResearcher->res_responsible_person_id = $request->research_advisor;
+              $resResearcher->name_th = $request->advisors[$i];
+              $resResearcher->name_en = "";
+              $resResearcher->percent = $request->advisor_percents[$i];
+              $resResearcher->created_by = Auth::user()->id;
+              $resResearcher->updated_by = Auth::user()->id;
+              $resResearcher->save();
+            }
+          }
+        }
+
+        $leaders = count($request->leaders);
+        if ($leaders > 0) {
+          for ($i = 0; $i < $leaders; $i++ ) {
+            if(trim($request->leaders[$i]) != ''){
+              $resResearcher = new ResResearcher;
+              $resResearcher->res_registration_id = $resReg->id;
+              $resResearcher->res_responsible_person_id = $request->research_leader;
+              $resResearcher->name_th = $request->leaders[$i];
+              $resResearcher->name_en = "";
+              $resResearcher->percent = $request->leader_percents[$i];
+              $resResearcher->created_by = Auth::user()->id;
+              $resResearcher->updated_by = Auth::user()->id;
+              $resResearcher->save();
+            }
+          }
+        }
+
+        $researchers = count($request->researchers);
+        if ($researchers > 0) {
+          for ($i = 0; $i < $researchers; $i++ ) {
+            if(trim($request->researchers[$i]) != ''){
+              $resResearcher = new ResResearcher;
+              $resResearcher->res_registration_id = $resReg->id;
+              $resResearcher->res_responsible_person_id = $request->research_researcher;
+              $resResearcher->name_th = $request->researchers[$i];
+              $resResearcher->name_en = "";
+              $resResearcher->percent = $request->researcher_percents[$i];
+              $resResearcher->created_by = Auth::user()->id;
+              $resResearcher->updated_by = Auth::user()->id;
+              $resResearcher->save();
             }
           }
         }
@@ -209,7 +296,7 @@ class ResRegistrationController extends Controller
 
       } else {
 
-        $this->_data['resResponsiblePersonList'] = ResResponsiblePerson::orderBy('id', 'asc')->get();
+      //$this->_data['resResponsiblePersonList'] = ResResponsiblePerson::orderBy('id', 'asc')->get();
         $this->_data['resFiscalYearList']        = ResFiscalYear::orderBy('id', 'asc')->get();
         $this->_data['resBudgetTypeList']        = ResBudgetType::orderBy('id', 'asc')->get();
         $this->_data['resAgencyResponsibleList'] = ResAgencyResponsible::orderBy('id', 'asc')->get();
@@ -247,11 +334,11 @@ class ResRegistrationController extends Controller
           $advisorWithComma = "";
           $advisors = count($request->advisors);
           if ($advisors > 0) {
-            $position = 0;
+            $posi = 0;
             for ($i = 0; $i < $advisors; $i++ ) {
               if(trim($request->advisors[$i]) != ''){
-                if($position == 0){
-                  $position = 1;
+                if($posi == 0){
+                  $posi = 1;
                   $advisorWithComma = $advisorWithComma . $request->advisors[$i];
                 }else{
                   $advisorWithComma = $advisorWithComma . ', ' . $request->advisors[$i];
@@ -260,12 +347,61 @@ class ResRegistrationController extends Controller
             }
           }
   
+          $leaderWithComma = "";
+          $leaders = count($request->leaders);
+          if ($leaders > 0) {
+            $posj = 0;
+            for ($i = 0; $i < $leaders; $i++ ) {
+              if(trim($request->leaders[$i]) != ''){
+                if($posj == 0){
+                  $posj = 1;
+                  if(trim($request->leader_percents[$i]) != ''){
+                    $leaderWithComma = $leaderWithComma . $request->leaders[$i] . '(' . $request->leader_percents[$i] . '%)';
+                  }else{
+                    $leaderWithComma = $leaderWithComma . $request->leaders[$i] . '(0%)';
+                  }
+                }else{
+                  if(trim($request->leader_percents[$i]) != ''){
+                    $leaderWithComma = $leaderWithComma . ', ' . $request->leaders[$i] . '(' . $request->leader_percents[$i] . '%)';
+                  }else{
+                    $leaderWithComma = $leaderWithComma . ', ' . $request->leaders[$i] . '(0%)';
+                  }
+                }
+              }
+            }
+          }
+  
+          $researcherWithComma = "";
+          $researchers = count($request->researchers);
+          if ($researchers > 0) {
+            $posk = 0;
+            for ($i = 0; $i < $researchers; $i++ ) {
+              if(trim($request->researchers[$i]) != ''){
+                if($posk == 0){
+                  $posk = 1;
+                  if(trim($request->researcher_percents[$i]) != ''){
+                    $researcherWithComma = $researcherWithComma . $request->researchers[$i] . '(' . $request->researcher_percents[$i] . '%)';
+                  }else{
+                    $researcherWithComma = $researcherWithComma . $request->researchers[$i] . '(0%)';
+                  }
+                }else{
+                  if(trim($request->researcher_percents[$i]) != ''){
+                    $researcherWithComma = $researcherWithComma . ', ' . $request->researchers[$i] . '(' . $request->researcher_percents[$i] . '%)';
+                  }else{
+                    $researcherWithComma = $researcherWithComma . ', ' . $request->researchers[$i] . '(0%)';
+                  }
+                }
+              }
+            }
+          }
+  
           $resReg->project_name_th = $request->project_name_th;
-          $resReg->project_name_en = $request->project_name_en;
-          $resReg->responsible_person_id = $request->responsible_person_id;
+        //$resReg->project_name_en = $request->project_name_en;
           $resReg->fiscal_year_id = $request->fiscal_year_id;
           $resReg->budget_type_id = $request->budget_type_id;
-          $resReg->advisors = $advisorWithComma;
+          $resReg->research_advisor = $advisorWithComma;
+          $resReg->research_leader = $leaderWithComma;
+          $resReg->research_researcher = $researcherWithComma;
           $resReg->agency_responsible_id = $request->agency_responsible_id;
           $resReg->budget_allocated = $request->budget_allocated;
           $resReg->start_date = $request->start_date;
@@ -275,20 +411,56 @@ class ResRegistrationController extends Controller
           $resReg->updated_by = Auth::user()->id;
           $resReg->save();
 
-          // ResAdvisor
-          ResAdvisor::where('res_registration_id', $resReg->id)->delete();
+          // ResResearcher
+          ResResearcher::where('res_registration_id', $resReg->id)->delete();
 
           $advisors = count($request->advisors);
           if ($advisors > 0) {
             for ($i = 0; $i < $advisors; $i++ ) {
               if(trim($request->advisors[$i]) != ''){
-                $resAdvisor = new ResAdvisor;
-                $resAdvisor->res_registration_id = $resReg->id;
-                $resAdvisor->advisor_name_th = $request->advisors[$i];
-                $resAdvisor->advisor_name_en = "";
-                $resAdvisor->created_by = Auth::user()->id;
-                $resAdvisor->updated_by = Auth::user()->id;
-                $resAdvisor->save();
+                $resResearcher = new ResResearcher;
+                $resResearcher->res_registration_id = $resReg->id;
+                $resResearcher->res_responsible_person_id = $request->research_advisor;
+                $resResearcher->name_th = $request->advisors[$i];
+                $resResearcher->name_en = "";
+                $resResearcher->percent = $request->advisor_percents[$i];
+                $resResearcher->created_by = Auth::user()->id;
+                $resResearcher->updated_by = Auth::user()->id;
+                $resResearcher->save();
+              }
+            }
+          }
+  
+          $leaders = count($request->leaders);
+          if ($leaders > 0) {
+            for ($i = 0; $i < $leaders; $i++ ) {
+              if(trim($request->leaders[$i]) != ''){
+                $resResearcher = new ResResearcher;
+                $resResearcher->res_registration_id = $resReg->id;
+                $resResearcher->res_responsible_person_id = $request->research_leader;
+                $resResearcher->name_th = $request->leaders[$i];
+                $resResearcher->name_en = "";
+                $resResearcher->percent = $request->leader_percents[$i];
+                $resResearcher->created_by = Auth::user()->id;
+                $resResearcher->updated_by = Auth::user()->id;
+                $resResearcher->save();
+              }
+            }
+          }
+  
+          $researchers = count($request->researchers);
+          if ($researchers > 0) {
+            for ($i = 0; $i < $researchers; $i++ ) {
+              if(trim($request->researchers[$i]) != ''){
+                $resResearcher = new ResResearcher;
+                $resResearcher->res_registration_id = $resReg->id;
+                $resResearcher->res_responsible_person_id = $request->research_researcher;
+                $resResearcher->name_th = $request->researchers[$i];
+                $resResearcher->name_en = "";
+                $resResearcher->percent = $request->researcher_percents[$i];
+                $resResearcher->created_by = Auth::user()->id;
+                $resResearcher->updated_by = Auth::user()->id;
+                $resResearcher->save();
               }
             }
           }
@@ -299,13 +471,31 @@ class ResRegistrationController extends Controller
 
           $this->_data['result'] = $resReg;
 
-          $resAdv = ResAdvisor::where('res_registration_id', $resReg->id)->select('id')->orderBy('id', 'desc')->first();
-          $advisorMaximum = 0;
-          if($resAdv){
-            $advisorMaximum = $resAdv->id;
+          $resAdvisor    = ResResearcher::where('res_registration_id', $resReg->id)->where('res_responsible_person_id', 1)->select('id')->orderBy('id', 'desc')->first();
+          $resLeader     = ResResearcher::where('res_registration_id', $resReg->id)->where('res_responsible_person_id', 2)->select('id')->orderBy('id', 'desc')->first();
+          $resResearcher = ResResearcher::where('res_registration_id', $resReg->id)->where('res_responsible_person_id', 3)->select('id')->orderBy('id', 'desc')->first();
+
+          $advisorMaximum    = 0;
+          $leaderMaximum     = 0;
+          $researcherMaximum = 0;
+
+          if($resAdvisor){
+            $advisorMaximum = $resAdvisor->id;
           }
+          if($resLeader){
+            $leaderMaximum = $resLeader->id;
+          }
+          if($resResearcher){
+            $researcherMaximum = $resResearcher->id;
+          }
+
           $this->_data['advisorMaximum'] = $advisorMaximum;
-          $this->_data['advisorList'] = ResAdvisor::where('res_registration_id', $resReg->id)->orderBy('id', 'asc')->get();
+          $this->_data['leaderMaximum'] = $leaderMaximum;
+          $this->_data['researcherMaximum'] = $researcherMaximum;
+
+          $this->_data['advisorList']    = ResResearcher::where('res_registration_id', $resReg->id)->where('res_responsible_person_id', 1)->orderBy('id', 'asc')->get();
+          $this->_data['leaderList']     = ResResearcher::where('res_registration_id', $resReg->id)->where('res_responsible_person_id', 2)->orderBy('id', 'asc')->get();
+          $this->_data['researcherList'] = ResResearcher::where('res_registration_id', $resReg->id)->where('res_responsible_person_id', 3)->orderBy('id', 'asc')->get();
 
           $this->_data['resResponsiblePersonList'] = ResResponsiblePerson::orderBy('id', 'asc')->get();
           $this->_data['resFiscalYearList']        = ResFiscalYear::orderBy('id', 'asc')->get();
@@ -343,7 +533,7 @@ class ResRegistrationController extends Controller
       switch ($request->action) {
         case 'delete':
 
-          ResAdvisor::where('res_registration_id', $request->id)->delete();
+          ResResearcher::where('res_registration_id', $request->id)->delete();
 
           ResRegistration::where('id', $request->id)->delete();
 
