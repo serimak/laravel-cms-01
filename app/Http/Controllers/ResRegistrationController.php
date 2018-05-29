@@ -108,9 +108,9 @@ class ResRegistrationController extends Controller
                 $this->_data['result'][$key]['budget_type_id']        = @ResBudgetType::find($value['budget_type_id'])->name_th;
                 $this->_data['result'][$key]['agency_responsible_id'] = @ResAgencyResponsible::find($value['agency_responsible_id'])->name_th;
                 $this->_data['result'][$key]['job_status_id']         = @ResJobStatus::find($value['job_status_id'])->name_th;
-                $this->_data['result'][$key]['start_date']            = $value['date_of_submission'] ? date('d/m/Y', strtotime($value['start_date'])) : "";
-                $this->_data['result'][$key]['end_date']              = $value['date_of_submission'] ? date('d/m/Y', strtotime($value['end_date'])) : "";
-                $this->_data['result'][$key]['date_of_submission']    = $value['date_of_submission'] ? date('d/m/Y', strtotime($value['date_of_submission'])) : "";
+                $this->_data['result'][$key]['start_date']            = $value['start_date'] ? Carbon::parse($value['start_date'])->addYear(543)->format('d/m/Y') : ""; //$value['start_date'] ? date('d/m/Y', strtotime($value['start_date'])) : "";
+                $this->_data['result'][$key]['end_date']              = $value['end_date'] ? Carbon::parse($value['end_date'])->addYear(543)->format('d/m/Y') : "";
+                $this->_data['result'][$key]['date_of_submission']    = $value['date_of_submission'] ? Carbon::parse($value['date_of_submission'])->addYear(543)->format('d/m/Y') : "";
             }
 
             return view('ResRegistration.list')->with($this->_data);
@@ -129,14 +129,13 @@ class ResRegistrationController extends Controller
       $value = ResRegistration::find($id);
       $this->_data['result'] = $value;
 
-    //$this->_data['result']['responsible_person_id'] = @ResResponsiblePerson::find($value['responsible_person_id'])->name_th;
       $this->_data['result']['fiscal_year_id']        = @ResFiscalYear::find($value['fiscal_year_id'])->name_th;
       $this->_data['result']['budget_type_id']        = @ResBudgetType::find($value['budget_type_id'])->name_th;
       $this->_data['result']['agency_responsible_id'] = @ResAgencyResponsible::find($value['agency_responsible_id'])->name_th;
       $this->_data['result']['job_status_id']         = @ResJobStatus::find($value['job_status_id'])->name_th;
-      $this->_data['result']['start_date']            = $value['date_of_submission'] ? date('d/m/Y', strtotime($value['start_date'])) : "";
-      $this->_data['result']['end_date']              = $value['date_of_submission'] ? date('d/m/Y', strtotime($value['end_date'])) : "";
-      $this->_data['result']['date_of_submission']    = $value['date_of_submission'] ? date('d/m/Y', strtotime($value['date_of_submission'])) : "";
+      $this->_data['result']['start_date']            = $value['start_date'] ? Carbon::parse($value['start_date'])->addYear(543)->format('d/m/Y') : ""; //$value['start_date'] ? date('d/m/Y', strtotime($value['start_date'])) : "";
+      $this->_data['result']['end_date']              = $value['end_date'] ? Carbon::parse($value['end_date'])->addYear(543)->format('d/m/Y') : "";
+      $this->_data['result']['date_of_submission']    = $value['date_of_submission'] ? Carbon::parse($value['date_of_submission'])->addYear(543)->format('d/m/Y') : "";
 
       return view('ResRegistration.view')->with($this->_data);
 
@@ -405,10 +404,10 @@ class ResRegistrationController extends Controller
           $resReg->research_researcher = $researcherWithComma;
           $resReg->agency_responsible_id = $request->agency_responsible_id;
           $resReg->budget_allocated = $request->budget_allocated;
-          $resReg->start_date = $request->start_date;
-          $resReg->end_date = $request->end_date;
+          $resReg->start_date = Carbon::createFromFormat('d/m/Y', $request->start_date, 'Asia/Bangkok')->subYear(543);
+          $resReg->end_date = Carbon::createFromFormat('d/m/Y', $request->end_date, 'Asia/Bangkok')->subYear(543);
           $resReg->job_status_id = $request->job_status_id;
-          $resReg->date_of_submission = $request->date_of_submission;
+          $resReg->date_of_submission = Carbon::createFromFormat('d/m/Y', $request->date_of_submission, 'Asia/Bangkok')->subYear(543);
           $resReg->updated_by = Auth::user()->id;
           $resReg->save();
 
@@ -471,6 +470,10 @@ class ResRegistrationController extends Controller
         } else {
 
           $this->_data['result'] = $resReg;
+
+          $this->_data['result']['start_date']         = $resReg->start_date ? Carbon::parse($resReg->start_date)->addYear(543)->format('d/m/Y') : "";
+          $this->_data['result']['end_date']           = $resReg->end_date ? Carbon::parse($resReg->end_date)->addYear(543)->format('d/m/Y') : "";
+          $this->_data['result']['date_of_submission'] = $resReg->date_of_submission ? Carbon::parse($resReg->date_of_submission)->addYear(543)->format('d/m/Y') : "";
 
           $resAdvisor    = ResResearcher::where('res_registration_id', $resReg->id)->where('res_responsible_person_id', 1)->select('id')->orderBy('id', 'desc')->first();
           $resLeader     = ResResearcher::where('res_registration_id', $resReg->id)->where('res_responsible_person_id', 2)->select('id')->orderBy('id', 'desc')->first();
