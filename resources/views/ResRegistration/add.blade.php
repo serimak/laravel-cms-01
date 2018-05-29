@@ -185,7 +185,7 @@
 								</label>
 								<div class="form-group">
 									<span class="input-icon">
-										<input type="text" placeholder="DD/MM/YYYY" class="form-control" name="start_date" id="start_date" value="{{ old('start_date') }}" maxlength="10">
+										<input type="text" placeholder="กรุณากรอก วัน/เดือน/ปี พ.ศ. ในรูปแบบ 'DD/MM/YYYY' ตัวอย่างเช่น '01/06/2561'" class="form-control" name="start_date" id="start_date" value="{{ old('start_date') }}" maxlength="10">
 										<i class="ti-calendar"></i> 
 									</span>
 								</div>
@@ -197,7 +197,7 @@
 								</label>
 								<div class="form-group">
 									<span class="input-icon">
-										<input type="text" placeholder="DD/MM/YYYY" class="form-control" name="end_date" id="end_date" value="{{ old('end_date') }}" maxlength="10">
+										<input type="text" placeholder="กรุณากรอก วัน/เดือน/ปี พ.ศ. ในรูปแบบ 'DD/MM/YYYY' ตัวอย่างเช่น '01/06/2561'" class="form-control" name="end_date" id="end_date" value="{{ old('end_date') }}" maxlength="10">
 										<i class="ti-calendar"></i> 
 									</span>
 								</div>
@@ -221,7 +221,7 @@
 					            </label>
 					            <div class="form-group">
 					                <span class="input-icon">
-									    <input type="text" placeholder="DD/MM/YYYY" class="form-control" name="date_of_submission" id="date_of_submission" value="{{ old('date_of_submission') }}" maxlength="20">
+									    <input type="text" placeholder="กรุณากรอก วัน/เดือน/ปี พ.ศ. ในรูปแบบ 'DD/MM/YYYY' ตัวอย่างเช่น '01/06/2561'" class="form-control" name="date_of_submission" id="date_of_submission" value="{{ old('date_of_submission') }}" maxlength="20">
 										<i class="ti-calendar"></i>
 									</span>
 								</div>

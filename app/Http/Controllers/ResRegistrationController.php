@@ -73,8 +73,6 @@ class ResRegistrationController extends Controller
         [
           'project_name_th' => 'required|string|max:1024',
         //'project_name_en' => 'nullable|string|max:1024|regex:/(^[A-Za-z0-9 _~\-+!@#<=>:;.,\?\/\$%\^&\*\(\)\[\]\"\'\{\}\`]+$)+/',
-          'project_name_en' => 'nullable|string|max:1024',
-        //'responsible_person_id' => 'required|integer',
           'fiscal_year_id' => 'required|integer',
           'budget_type_id' => 'required|integer',
           'research_advisor' => 'nullable',
@@ -82,13 +80,16 @@ class ResRegistrationController extends Controller
           'research_researcher' => 'nullable',
           'agency_responsible_id' => 'required|integer',
           'budget_allocated' => 'required|numeric',
+          'job_status_id' => 'required|integer',
           'start_date' => 'nullable',
           'end_date' => 'nullable',
-          'job_status_id' => 'required|integer',
           'date_of_submission' => 'nullable'
         ],
         [
-        //'project_name_en.regex' => 'Field "Project name english" allow user type only English characters, numbers and special characters'
+        //'project_name_en.regex'    => 'Field "Project name english" allow user type only English characters, numbers and special characters',
+        //'start_date.regex'         => 'รูปแบบ วัน/เดือน/ปี พ.ศ. ไม่ถูกต้อง กรุณากรอกในรูปแบบ DD/MM/YYYY ตัวอย่างเช่น 01/06/2561',
+        //'end_date.regex'           => 'รูปแบบ วัน/เดือน/ปี พ.ศ. ไม่ถูกต้อง กรุณากรอกในรูปแบบ DD/MM/YYYY ตัวอย่างเช่น 01/06/2561',
+        //'date_of_submission.regex' => 'รูปแบบ วัน/เดือน/ปี พ.ศ. ไม่ถูกต้อง กรุณากรอกในรูปแบบ DD/MM/YYYY ตัวอย่างเช่น 01/06/2561'
         ]
     );
   }
@@ -103,7 +104,6 @@ class ResRegistrationController extends Controller
 
                 $this->_data['result'][$key] = $value;
 
-              //$this->_data['result'][$key]['responsible_person_id'] = @ResResponsiblePerson::find($value['responsible_person_id'])->name_th;
                 $this->_data['result'][$key]['fiscal_year_id']        = @ResFiscalYear::find($value['fiscal_year_id'])->name_th;
                 $this->_data['result'][$key]['budget_type_id']        = @ResBudgetType::find($value['budget_type_id'])->name_th;
                 $this->_data['result'][$key]['agency_responsible_id'] = @ResAgencyResponsible::find($value['agency_responsible_id'])->name_th;
