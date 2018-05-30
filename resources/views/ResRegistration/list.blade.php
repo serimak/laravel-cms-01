@@ -81,7 +81,7 @@
 
                     </div>
                     @if($menu_super || $menu_write)
-                      <a class="btn btn-wide btn-success pull-right" href="{{ url('research_registration/add') }}"><i class="glyphicon glyphicon-plus"></i> เพิ่มข้อมูลงานวิจัย</a>
+                      <a class="btn btn-wide btn-primary pull-right" href="{{ url('research_registration/add') }}"><i class="glyphicon glyphicon-plus"></i> เพิ่มข้อมูลงานวิจัย</a>
                     @endif
                   </div>
                 @endif

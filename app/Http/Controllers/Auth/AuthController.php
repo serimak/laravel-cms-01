@@ -133,7 +133,8 @@ class AuthController extends Controller
 
     public function redirectTo()
     {
-        $url = '/dashboard';
+      //$url = '/dashboard';
+        $url = '/research_registration';
         return $url;
     }
 }
