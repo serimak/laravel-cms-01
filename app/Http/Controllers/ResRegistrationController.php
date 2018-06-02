@@ -297,7 +297,7 @@ class ResRegistrationController extends Controller
       } else {
 
       //$this->_data['resResponsiblePersonList'] = ResResponsiblePerson::orderBy('id', 'asc')->get();
-        $this->_data['resFiscalYearList']        = ResFiscalYear::orderBy('id', 'asc')->get();
+        $this->_data['resFiscalYearList']        = ResFiscalYear::orderBy('id', 'desc')->get();
         $this->_data['resBudgetTypeList']        = ResBudgetType::orderBy('id', 'asc')->get();
         $this->_data['resAgencyResponsibleList'] = ResAgencyResponsible::orderBy('id', 'asc')->get();
         $this->_data['resJobStatusList']         = ResJobStatus::orderBy('id', 'asc')->get();
@@ -502,7 +502,7 @@ class ResRegistrationController extends Controller
           $this->_data['researcherList'] = ResResearcher::where('res_registration_id', $resReg->id)->where('res_responsible_person_id', 3)->orderBy('id', 'asc')->get();
 
           $this->_data['resResponsiblePersonList'] = ResResponsiblePerson::orderBy('id', 'asc')->get();
-          $this->_data['resFiscalYearList']        = ResFiscalYear::orderBy('id', 'asc')->get();
+          $this->_data['resFiscalYearList']        = ResFiscalYear::orderBy('id', 'desc')->get();
           $this->_data['resBudgetTypeList']        = ResBudgetType::orderBy('id', 'asc')->get();
           $this->_data['resAgencyResponsibleList'] = ResAgencyResponsible::orderBy('id', 'asc')->get();
           $this->_data['resJobStatusList']         = ResJobStatus::orderBy('id', 'asc')->get();
