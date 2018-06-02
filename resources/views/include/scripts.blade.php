@@ -24,6 +24,7 @@
 	jQuery(document).ready(function() {
 		Main.init();
 		Index.init();
+		$('#app').addClass('app-sidebar-closed');
 	});
 </script>
 <!-- end: JavaScript Event Handlers for this page -->
