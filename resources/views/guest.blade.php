@@ -47,69 +47,30 @@
 				</div> --}}
 				<!-- start: LOGIN BOX -->
 				<div class="box-login">
-					<form class="form-login" action="{{ url('/auth/login') }}" method="post">
+					<form class="form-login" action="{{ url('/auth/guest') }}" method="post">
 						{{ csrf_field() }}
 						<fieldset>
 							<legend>
-								<!-- Log in to your account -->
 								ระบบฐานข้อมูลสืบค้นงานวิจัย
 							</legend>
 							<p>
-								กรุณาใส่ ชื่อผู้ใช้งาน และ รหัสผ่าน เพื่อเข้าสู่ระบบ
+								เพื่อความปลอดภัยในการเข้าใช้งานระบบ กรุณายืนยันว่าผู้ใช้บริการเป็นมนุษย์จริงๆ ไม่ใช่โปรแกรมอัตโนมัติ ด้วยการเช็คเครื่องหมายถูกหน้าข้อความ 'ฉันไม่ใช่หุ่นยนต์' (I'm not a robot)
 							</p>
+
 							@if ($errors->any())
-								@if ($errors->first()=="การเปลี่ยนรหัสผ่านของคุณ สำเร็จ!")
-							        <div class="alert alert-success">
-							          {{$errors->first()}}
-							        </div>
-								@else
-							        <div class="alert alert-danger">
-							          {{$errors->first()}}
-							        </div>
-							    @endif
-						    @endif
-
-			                <!-- fix check cange profile 3 -->
-
-							<div class="form-group">
-								<span class="input-icon">
-									<input type="text" class="form-control" name="username" placeholder="Username" value="{{ old('username') }}" required autofocus>
-									<i class="fa fa-user"></i>
-								</span>
-                                @if ($errors->has('username'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('username') }}</strong>
-                                    </span>
-                                @endif
-                                
-							</div>
-							<div class="form-group">
-								<span class="input-icon">
-									<input type="password" class="form-control password" name="password" placeholder="Password">
-									<i class="fa fa-lock"></i>
-									<!-- <a class="forgot" href="login_forgot.html">
-										I forgot my password
-									</a> -->
-								</span>
-							</div>
+								<div class="alert alert-danger">
+									กรุณายืนยันว่า 'ฉันไม่ใช่หุ่นยนต์' (I'm not a robot)
+								</div>
+							@endif
 							
 							<div class="form-actions">
-								<!-- <div class="checkbox clip-check check-primary">
-									<input type="checkbox" id="remember" value="1">
-									<label for="remember">
-										Keep me signed in
-									</label>
-								</div> -->
 								<div class="text-center margin-bottom-15">
 									@captcha()
 								</div>
 
 								<button type="submit" class="btn btn-primary btn-block">
-									เข้าสู่ระบบ โดยผู้ดูแลระบบ <i class="fa fa-arrow-circle-right"></i>
+									เข้าสู่ระบบ <i class="fa fa-arrow-circle-right"></i>
 								</button>
-								<a href="{{ env('APP_URL') }}" class="btn btn-primary btn-block">
-									เข้าสู่ระบบ โดยผู้ใช้งานทั่วไป
-								</a>
 							</div>
 
 						</fieldset>

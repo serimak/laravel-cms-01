@@ -13,18 +13,20 @@
 				</div>
 
 				<ul class="main-navigation-menu">
+					<!--
 					<li {{ Request::is('dashboard') ? 'class=open' : '' }}>
 						<a href="{{ url('dashboard') }}">
 							<div class="item-content">
 								<div class="item-media">
-									<i class="ti-home"></i>
+									<i class="ti-search"></i>
 								</div>
 								<div class="item-inner">
-									<span class="title"> หน้าหลัก </span>
+									<span class="title"> Dashboard </span>
 								</div>
 							</div>
 						</a>
 					</li>
+				    -->
 					@if ($user_role[0]->cms_level)
 						@foreach($main_menu as $key => $menu)
 							@if ($menu['main'] && $menu['main']['menu_seq'] < 999)
@@ -68,7 +70,7 @@
 				<!-- start: CORE FEATURES -->
 				@if ($user_role[0]->sa_level)
 					<div class="navbar-title">
-						<span>SETTING MENU</span>
+						<span>SETTING</span>
 					</div>
 					<ul class="folders">
 						@foreach($main_menu as $key => $menu)

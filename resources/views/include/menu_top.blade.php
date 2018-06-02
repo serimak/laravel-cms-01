@@ -29,6 +29,7 @@
 						<span class="username">{{ Auth::user()->firstname_th }} <i class="ti-angle-down"></i></i></span>
 					</a>
 					<ul class="dropdown-menu dropdown-dark">
+						@if (Auth::user()->username != 'guest')
 						<li>
 							<a href="{{ url('profile') }}">
 								ข้อมูลส่วนตัว
@@ -44,6 +45,13 @@
 								ออกจากระบบ
 							</a>
 						</li>
+						@else
+						<li>
+							<a href="{{ url('/auth/guestlogout') }}">
+								ออกจากระบบ
+							</a>
+						</li>
+						@endif
 					</ul>
 				</li>
 				<!-- end: USER OPTIONS DROPDOWN -->

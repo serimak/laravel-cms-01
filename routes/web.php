@@ -18,8 +18,9 @@ if (env('REDIRECT_HTTPS') == 'true' || env('REDIRECT_HTTPS') == true) {
 */
 
 Route::get('/', function () {
-	return view('login');
+	return view('guest');
 });
+
 Route::get('login', function () {
 	return view('login');
 })->name('login');
@@ -27,12 +28,15 @@ Route::get('login', function () {
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 
+Route::post('auth/guest', 'Auth\AuthController@postGuest');
+
 Route::group(['middleware' => ['role.user']], function () {
 
 	Route::get('auth/logout', 'Auth\AuthController@getLogout')->name('logout');
+	Route::get('auth/guestlogout', 'Auth\AuthController@getGuestLogout')->name('logoutguest');
 
 	Route::get('dashboard', function () {
-	  return view('dashboard');
+	  	return view('dashboard');
 	})->name('home');
 
 	Route::group(['prefix' => 'change_password'], function() {
@@ -57,6 +61,11 @@ Route::group(['middleware' => ['role.user']], function () {
 		Route::post('edit/{id}', 'ResRegistrationController@edit')->where('id', '[0-9]+');
 		Route::post('selected', 'ResRegistrationController@update');
 		Route::get('view/{id}', 'ResRegistrationController@view')->where('id', '[0-9]+')->name('resRegis.view');
+	});
+
+	Route::group(['prefix' => 'research_search'], function() {
+		Route::get('', 'SerRegistrationController@index')->name('serRegis');
+		Route::get('view/{id}', 'SerRegistrationController@view')->where('id', '[0-9]+')->name('serRegis.view');
 	});
 
 	Route::group(['prefix' => 'users_groups'], function() {
