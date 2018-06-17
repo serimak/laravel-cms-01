@@ -202,7 +202,7 @@
           },
           {
             'targets': 6,
-            'width': '100px',
+            'width': '120px',
             'className':'dt-body-center'
           },
           {
@@ -217,17 +217,17 @@
           },
           {
             'targets': 9,
-            'width': '150px',
+            'width': '170px',
             'className':'dt-body-center'
           },
           {
             'targets': 10,
-            'width': '100px',
+            'width': '130px',
             'className':'dt-body-center'
           },
           {
             'targets': 11,
-            'width': '110',
+            'width': '130',
             'className':'dt-body-center'
           },
           {

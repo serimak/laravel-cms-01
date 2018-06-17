@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use DB;
 
 class ResRegistrationController extends Controller
 {
@@ -96,30 +97,49 @@ class ResRegistrationController extends Controller
 
   public function index(Request $request)
   {
-        if(count($this->getPermissions($request, 1))==1) { // R, W, D, S
+        // if(count($this->getPermissions($request, 1))==1) { // R, W, D, S
 
-            $resRegLists = ResRegistration::orderBy('id', 'asc')->get();
+        //     $resRegLists = ResRegistration::orderBy('id', 'asc')->get();
 
-            foreach ($resRegLists as $key => $value) {
+        //     foreach ($resRegLists as $key => $value) {
 
-                $this->_data['result'][$key] = $value;
+        //         $this->_data['result'][$key] = $value;
 
-                $this->_data['result'][$key]['fiscal_year_id']        = @ResFiscalYear::find($value['fiscal_year_id'])->name_th;
-                $this->_data['result'][$key]['budget_type_id']        = @ResBudgetType::find($value['budget_type_id'])->name_th;
-                $this->_data['result'][$key]['agency_responsible_id'] = @ResAgencyResponsible::find($value['agency_responsible_id'])->name_th;
-                $this->_data['result'][$key]['job_status_id']         = @ResJobStatus::find($value['job_status_id'])->name_th;
-                $this->_data['result'][$key]['start_date']            = $value['start_date'] ? Carbon::parse($value['start_date'])->addYear(543)->format('d/m/Y') : ""; //$value['start_date'] ? date('d/m/Y', strtotime($value['start_date'])) : "";
-                $this->_data['result'][$key]['end_date']              = $value['end_date'] ? Carbon::parse($value['end_date'])->addYear(543)->format('d/m/Y') : "";
-                $this->_data['result'][$key]['date_of_submission']    = $value['date_of_submission'] ? Carbon::parse($value['date_of_submission'])->addYear(543)->format('d/m/Y') : "";
-            }
+        //         $this->_data['result'][$key]['fiscal_year_id']        = @ResFiscalYear::find($value['fiscal_year_id'])->name_th;
+        //         $this->_data['result'][$key]['budget_type_id']        = @ResBudgetType::find($value['budget_type_id'])->name_th;
+        //         $this->_data['result'][$key]['agency_responsible_id'] = @ResAgencyResponsible::find($value['agency_responsible_id'])->name_th;
+        //         $this->_data['result'][$key]['job_status_id']         = @ResJobStatus::find($value['job_status_id'])->name_th;
+        //         $this->_data['result'][$key]['start_date']            = $value['start_date'] ? Carbon::parse($value['start_date'])->addYear(543)->format('d/m/Y') : ""; //$value['start_date'] ? date('d/m/Y', strtotime($value['start_date'])) : "";
+        //         $this->_data['result'][$key]['end_date']              = $value['end_date'] ? Carbon::parse($value['end_date'])->addYear(543)->format('d/m/Y') : "";
+        //         $this->_data['result'][$key]['date_of_submission']    = $value['date_of_submission'] ? Carbon::parse($value['date_of_submission'])->addYear(543)->format('d/m/Y') : "";
+        //     }
 
-            return view('ResRegistration.list')->with($this->_data);
+        //     return view('ResRegistration.list')->with($this->_data);
 
-        } else {
+        // } else {
 
-            return response()->json([]);
+        //     return response()->json([]);
 
-        }
+        // }
+
+      $resRegLists = DB::table('res_registration')
+                      ->leftJoin('res_fiscal_year', 'res_fiscal_year.id', '=', 'res_registration.fiscal_year_id')
+                      ->leftJoin('res_budget_type', 'res_budget_type.id', '=', 'res_registration.budget_type_id')
+                      ->leftJoin('res_agency_responsible', 'res_agency_responsible.id', '=', 'res_registration.agency_responsible_id')
+                      ->leftJoin('res_job_status', 'res_job_status.id', '=', 'res_registration.job_status_id')
+                      ->select(DB::raw('res_registration.id, res_registration.project_name_th, res_registration.project_name_en, res_registration.research_advisor, res_registration.research_leader, res_registration.research_researcher, res_fiscal_year.name_th AS fiscal_year_id, res_budget_type.name_th AS budget_type_id, res_agency_responsible.name_th AS agency_responsible_id, res_registration.budget_allocated, res_registration.start_date, res_registration.end_date, res_job_status.name_th AS job_status_id, res_registration.date_of_submission, res_registration.created_by, res_registration.updated_by, res_registration.created_at, res_registration.updated_at'))
+                      ->get();
+
+      foreach ($resRegLists as $key => $value) {
+          //dd($value->start_date);
+          $this->_data['result'][$key] = $value;
+
+          $this->_data['result'][$key]->start_date         = $value->start_date ? Carbon::parse($value->start_date)->addYear(543)->format('d/m/Y') : "";
+          $this->_data['result'][$key]->end_date           = $value->end_date ? Carbon::parse($value->end_date)->addYear(543)->format('d/m/Y') : "";
+          $this->_data['result'][$key]->date_of_submission = $value->date_of_submission ? Carbon::parse($value->date_of_submission)->addYear(543)->format('d/m/Y') : "";
+      }
+      //dd($this->_data['result']);
+      return view('ResRegistration.list')->with($this->_data);
   }
 
   public function view(Request $request, $id)
