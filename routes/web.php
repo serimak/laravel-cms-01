@@ -39,6 +39,10 @@ Route::group(['middleware' => ['role.user']], function () {
 	  	return view('dashboard');
 	})->name('home');
 
+	Route::group(['prefix' => 'research_chart'], function() {
+		Route::get('', 'ChartController@index')->name('resChart');
+	});
+
 	Route::group(['prefix' => 'change_password'], function() {
 		Route::get('', 'ProfileController@change_password')->name('change_password');
 		Route::post('', 'ProfileController@change_password');
