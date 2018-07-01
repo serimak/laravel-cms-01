@@ -14,6 +14,7 @@ class CreateResAbstractTable extends Migration
     public function up()
     {
         Schema::create('res_abstract', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('res_registration_id')->unsigned()->comment('รหัสโครงการของบทคัดย่อ');
             $table->string('abstract_th')->default('')->comment('บทคัดย่อภาษาไทย');
             $table->string('abstract_en')->default('')->comment('บทคัดย่อภาษาอังกฤษ');
