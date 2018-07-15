@@ -9,6 +9,7 @@ use App\Models\ResFiscalYear;
 use App\Models\ResBudgetType;
 use App\Models\ResAgencyResponsible;
 use App\Models\ResJobStatus;
+use App\Models\ResAbstract;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -128,6 +129,9 @@ class SerRegistrationController extends Controller
       $this->_data['result']['start_date']            = $value['start_date'] ? Carbon::parse($value['start_date'])->addYear(543)->format('d/m/Y') : ""; //$value['start_date'] ? date('d/m/Y', strtotime($value['start_date'])) : "";
       $this->_data['result']['end_date']              = $value['end_date'] ? Carbon::parse($value['end_date'])->addYear(543)->format('d/m/Y') : "";
       $this->_data['result']['date_of_submission']    = $value['date_of_submission'] ? Carbon::parse($value['date_of_submission'])->addYear(543)->format('d/m/Y') : "";
+      
+      $resAbstract = @ResAbstract::where('res_registration_id', $value['id'])->first();
+      $this->_data['result']['abstract_th'] = $resAbstract ? $resAbstract->abstract_th : "";
 
       return view('SerRegistration.view')->with($this->_data);
 

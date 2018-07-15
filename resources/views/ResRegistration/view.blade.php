@@ -173,6 +173,16 @@
                                         </p>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label class="control-label text-bold col-xs-3">
+                                        บทคัดย่อ : 
+                                    </label>
+                                    <div class="col-xs-9">
+                                        <p class="text-dark w-100">
+                                            <textarea name="abstract_th" id="abstract_th" value="{{ $result->abstract_th }}">{{ $result->abstract_th }}</textarea>
+                                        </p>
+                                    </div>
+                                </div>
 							</fieldset>
 						</div>
 					</div>
@@ -206,6 +216,8 @@
 <!-- start: JavaScript Event Handlers for this page -->
 <script src="{{asset('core/assets/js/form-elements.js', env('REDIRECT_HTTPS'))}}"></script>
 <script src="{{asset('core/assets/js/form-validation.js', env('REDIRECT_HTTPS'))}}"></script>
+<script src="{{asset('js/tinymce/tinymce.min.js', env('REDIRECT_HTTPS'))}}"></script>
+<script>tinymce.init({ selector:'textarea' });</script>
 <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
 <script>
 	jQuery(document).ready(function() {

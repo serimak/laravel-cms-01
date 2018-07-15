@@ -9,6 +9,7 @@ use App\Models\ResFiscalYear;
 use App\Models\ResBudgetType;
 use App\Models\ResAgencyResponsible;
 use App\Models\ResJobStatus;
+use App\Models\ResAbstract;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -147,8 +148,8 @@ class ResRegistrationController extends Controller
     if(count($this->getPermissions($request, 1))==1) { // R, W, D, S
 
       $value = ResRegistration::find($id);
-      $this->_data['result'] = $value;
 
+      $this->_data['result'] = $value;
       $this->_data['result']['fiscal_year_id']        = @ResFiscalYear::find($value['fiscal_year_id'])->name_th;
       $this->_data['result']['budget_type_id']        = @ResBudgetType::find($value['budget_type_id'])->name_th;
       $this->_data['result']['agency_responsible_id'] = @ResAgencyResponsible::find($value['agency_responsible_id'])->name_th;
@@ -157,6 +158,9 @@ class ResRegistrationController extends Controller
       $this->_data['result']['end_date']              = $value['end_date'] ? Carbon::parse($value['end_date'])->addYear(543)->format('d/m/Y') : "";
       $this->_data['result']['date_of_submission']    = $value['date_of_submission'] ? Carbon::parse($value['date_of_submission'])->addYear(543)->format('d/m/Y') : "";
 
+      $resAbstract = @ResAbstract::where('res_registration_id', $value['id'])->first();
+      $this->_data['result']['abstract_th'] = $resAbstract ? $resAbstract->abstract_th : "";
+      //dd($this->_data);
       return view('ResRegistration.view')->with($this->_data);
 
     } else {
@@ -311,6 +315,14 @@ class ResRegistrationController extends Controller
             }
           }
         }
+
+        $resAbstract = new ResAbstract;
+        $resAbstract->res_registration_id = $resReg->id;
+        $resAbstract->abstract_th = $request->abstract_th;
+        $resAbstract->abstract_en = "";
+        $resAbstract->created_by = Auth::user()->id;
+        $resAbstract->updated_by = Auth::user()->id;
+        $resAbstract->save();
 
         return redirect()->route('resRegis');
 
@@ -485,6 +497,18 @@ class ResRegistrationController extends Controller
             }
           }
 
+          // ResAbstract
+          ResAbstract::where('res_registration_id', $resReg->id)->delete();
+          if($request->abstract_th){
+            $resAbstract = new ResAbstract;
+            $resAbstract->res_registration_id = $resReg->id;
+            $resAbstract->abstract_th = $request->abstract_th;
+            $resAbstract->abstract_en = "";
+            $resAbstract->created_by = Auth::user()->id;
+            $resAbstract->updated_by = Auth::user()->id;
+            $resAbstract->save();
+          }
+   
           return redirect()->route('resRegis');
 
         } else {
@@ -527,6 +551,9 @@ class ResRegistrationController extends Controller
           $this->_data['resAgencyResponsibleList'] = ResAgencyResponsible::orderBy('id', 'asc')->get();
           $this->_data['resJobStatusList']         = ResJobStatus::orderBy('id', 'asc')->get();
 
+          $resAbstract = ResAbstract::where('res_registration_id', $resReg->id)->first();
+          $this->_data['result']['abstract_th'] = $resAbstract ? $resAbstract->abstract_th : "";
+
           //dd($this->_data);
 
           return view('ResRegistration.edit')->with($this->_data);
@@ -560,6 +587,8 @@ class ResRegistrationController extends Controller
           ResResearcher::where('res_registration_id', $request->id)->delete();
 
           ResRegistration::where('id', $request->id)->delete();
+
+          ResAbstract::where('res_registration_id', $request->id)->delete();
 
           $this->flash_messages($request, 'success', 'ทำการลบข้อมูลสำเร็จ !');
           break;

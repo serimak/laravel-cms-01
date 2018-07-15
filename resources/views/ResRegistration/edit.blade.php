@@ -274,7 +274,16 @@
 										<i class="ti-calendar"></i>
 									</span>
 								</div>
-					        </div>
+							</div>
+							
+							<div class="form-group">
+								<label class="text-bold">
+									บทคัดย่อ
+								</label>
+								<div class="form-group">
+									<textarea name="abstract_th" id="abstract_th" value="{{ old('abstract_th', $result->abstract_th) }}">{{ old('abstract_th', $result->abstract_th) }}</textarea>
+								</div>
+							</div>	
 					   
 						</fieldset>
 
@@ -319,6 +328,8 @@
 <!-- start: JavaScript Event Handlers for this page -->
 {{-- <script src="{{asset('core/assets/js/form-elements.js', env('REDIRECT_HTTPS'))}}"></script> --}}
 <script src="{{asset('core/assets/js/form-validation.js', env('REDIRECT_HTTPS'))}}"></script>
+<script src="{{asset('js/tinymce/tinymce.min.js', env('REDIRECT_HTTPS'))}}"></script>
+<script>tinymce.init({ selector:'textarea' });</script>
 <script>
 
   	jQuery(document).ready(function() {
