@@ -404,7 +404,7 @@ class ResRegistrationController extends Controller
           }
   
           $researcherWithComma = "";
-          $researchers = count($request->researchers);
+          $researchers = $request->researchers ? count($request->researchers) : 0;
           if ($researchers > 0) {
             $posk = 0;
             for ($i = 0; $i < $researchers; $i++ ) {
