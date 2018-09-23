@@ -184,7 +184,7 @@ class ResRegistrationController extends Controller
         }
 
         $advisorWithComma = "";
-        $advisors = count($request->advisors);
+        $advisors = $request->advisors ? count($request->advisors) : 0;
         if ($advisors > 0) {
           $posi = 0;
           for ($i = 0; $i < $advisors; $i++ ) {
@@ -200,7 +200,7 @@ class ResRegistrationController extends Controller
         }
 
         $leaderWithComma = "";
-        $leaders = count($request->leaders);
+        $leaders = $request->leaders ? count($request->leaders) : 0;
         if ($leaders > 0) {
           $posj = 0;
           for ($i = 0; $i < $leaders; $i++ ) {
@@ -224,7 +224,7 @@ class ResRegistrationController extends Controller
         }
 
         $researcherWithComma = "";
-        $researchers = count($request->researchers);
+        $researchers = $request->researchers ? count($request->researchers) : 0;
         if ($researchers > 0) {
           $posk = 0;
           for ($i = 0; $i < $researchers; $i++ ) {
@@ -265,7 +265,7 @@ class ResRegistrationController extends Controller
         $resReg->updated_by = Auth::user()->id;
         $resReg->save();
 
-        $advisors = count($request->advisors);
+        $advisors = $request->advisors ? count($request->advisors) : 0;
         if ($advisors > 0) {
           for ($i = 0; $i < $advisors; $i++ ) {
             if(trim($request->advisors[$i]) != ''){
@@ -282,7 +282,7 @@ class ResRegistrationController extends Controller
           }
         }
 
-        $leaders = count($request->leaders);
+        $leaders = $request->leaders ? count($request->leaders) :0;
         if ($leaders > 0) {
           for ($i = 0; $i < $leaders; $i++ ) {
             if(trim($request->leaders[$i]) != ''){
@@ -299,7 +299,7 @@ class ResRegistrationController extends Controller
           }
         }
 
-        $researchers = count($request->researchers);
+        $researchers = $request->researchers ? count($request->researchers) : 0;
         if ($researchers > 0) {
           for ($i = 0; $i < $researchers; $i++ ) {
             if(trim($request->researchers[$i]) != ''){
@@ -364,7 +364,7 @@ class ResRegistrationController extends Controller
 
           // ResRegistration
           $advisorWithComma = "";
-          $advisors = count($request->advisors);
+          $advisors = $request->advisors ? count($request->advisors) : 0;
           if ($advisors > 0) {
             $posi = 0;
             for ($i = 0; $i < $advisors; $i++ ) {
@@ -380,7 +380,7 @@ class ResRegistrationController extends Controller
           }
   
           $leaderWithComma = "";
-          $leaders = count($request->leaders);
+          $leaders = $request->leaders ? count($request->leaders) : 0;
           if ($leaders > 0) {
             $posj = 0;
             for ($i = 0; $i < $leaders; $i++ ) {
@@ -446,7 +446,7 @@ class ResRegistrationController extends Controller
           // ResResearcher
           ResResearcher::where('res_registration_id', $resReg->id)->delete();
 
-          $advisors = count($request->advisors);
+          $advisors = $request->advisors ? count($request->advisors) : 0;
           if ($advisors > 0) {
             for ($i = 0; $i < $advisors; $i++ ) {
               if(trim($request->advisors[$i]) != ''){
@@ -463,7 +463,7 @@ class ResRegistrationController extends Controller
             }
           }
   
-          $leaders = count($request->leaders);
+          $leaders = $request->leaders ? count($request->leaders) :0;
           if ($leaders > 0) {
             for ($i = 0; $i < $leaders; $i++ ) {
               if(trim($request->leaders[$i]) != ''){
