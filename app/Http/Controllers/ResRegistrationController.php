@@ -480,7 +480,7 @@ class ResRegistrationController extends Controller
             }
           }
   
-          $researchers = count($request->researchers);
+          $researchers = $request->researchers ? count($request->researchers) : 0;
           if ($researchers > 0) {
             for ($i = 0; $i < $researchers; $i++ ) {
               if(trim($request->researchers[$i]) != ''){
